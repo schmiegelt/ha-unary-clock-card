@@ -1,0 +1,21 @@
+{
+	"name": "HA Unary Clock Card Development",
+	"dockerFile": "Dockerfile",
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"npm.packageManager": "pnpm"
+	},
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"bierner.lit-html",
+		"runem.lit-plugin",
+		"github.copilot"
+	],
+	"forwardPorts": [],
+	"mounts": [
+    	"source=${devcontainerId}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume"
+	],
+	"postCreateCommand": "pnpm install",
+	"remoteUser": "node"
+}
