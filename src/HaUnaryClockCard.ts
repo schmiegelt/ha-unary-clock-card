@@ -41,10 +41,9 @@ export class HaUnaryClockCard extends LitElement {
   }
 
   private updateTimer(): void {
-    console.log('Timer changed');
-    this.timer = window.setInterval(() => {
-      this.updateTimer();
-    }, 1000);
+    console.log('Timer update');
+    // Add actual time update logic here
+    this.requestUpdate();
   }
 
   private startTimer(): void {
@@ -55,6 +54,7 @@ export class HaUnaryClockCard extends LitElement {
       }, 1000);
     }
   }
+
   private stopTimer(): void {
     if (this.timer) {
       clearInterval(this.timer);
@@ -95,18 +95,15 @@ export class HaUnaryClockCard extends LitElement {
 
   renderHours(now: Date) {
     const hours = now.getHours();
-    const onOffHours: boolean[] = this.createRandomBooleanArray(9, hours);
-    console.log(onOffHours);
-  }
+    const firstDigit = Math.floor(hours / 10);
+    const secondDigit = hours % 10;
 
-  render() {
-    const now: Date = new Date();
-    this.renderHours(now);
+    const onOffHours1: boolean[] = this.createRandomBooleanArray(9, firstDigit);
+    const onOffHours2: boolean[] = this.createRandomBooleanArray(9, secondDigit);
+    //console.log(onOffHours);
 
     return html`
-      <h2>Unary Clock</h2>
-      <div class="clock">
-        <div class="hours">
+      <div class="hours">
           ${map(
             range(3),
             x => html`
@@ -126,26 +123,43 @@ export class HaUnaryClockCard extends LitElement {
             `,
           )}
         </div>
-        <div class="minutes">
-          ${map(
-            range(3),
-            x => html`
-              ${map(
-                range(3),
-                y => html`
-                  <div
-                    id="${x}_${y}"
-                    class="minute"
-                    width="${this.rectangleSize}"
-                    height="${this.rectangleSize}"
-                  >
-                    ${x}_${y}
-                  </div>
-                `,
-              )}
-            `,
-          )}
-        </div>
+    `;
+  }
+
+  renderMinutes(now: Date) {
+    return html`
+      <div class="minutes">
+            ${map(
+              range(3),
+              x => html`
+                ${map(
+                  range(3),
+                  y => html`
+                    <div
+                      id="${x}_${y}"
+                      class="minute"
+                      width="${this.rectangleSize}"
+                      height="${this.rectangleSize}"
+                    >
+                      ${x}_${y}
+                    </div>
+                  `,
+                )}
+              `,
+            )}
+          </div>
+      `;
+  }
+
+  render() {
+    const now: Date = new Date();
+    //this.renderHours(now);
+
+    return html`
+      <h2>Unary Clock</h2>
+      <div class="clock">
+        ${this.renderHours(now)}
+        ${this.renderMinutes(now)}       
       </div>
     `;
   }
