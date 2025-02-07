@@ -11,7 +11,7 @@ console.info(
 );
 
 export class HaUnaryClockCard extends LitElement {
-  @property({ type: Number }) rectangleSize = 10;
+  @property({ type: Number }) rectangleSize = 5;
 
   @property({ attribute: false }) config: Record<string, unknown> = {};
 
@@ -243,7 +243,6 @@ export class HaUnaryClockCard extends LitElement {
     //this.renderHours(now);
 
     return html`
-      <h2>Unary Clock</h2>
       <div class="clock">
         ${this.renderHours(now)}
         ${this.renderMinutes(now)} 
@@ -256,18 +255,26 @@ export class HaUnaryClockCard extends LitElement {
       .clock {
         display: grid;
         background-color: slategray;
-        grid-template-columns: auto auto;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        width: 100vw;
+        max-width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
       }
       .hours,
       .minutes {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: repeat(3, 1fr);
+        width: 90%;
+        
+        gap: 5px;
       }
       .hour,
       .minute {
+        aspect-ratio: 1;
+        width: 90%;
         margin: 5px;
-        height: 10vw;
-        width: 10vw;
       }
 
       .hour.hourone.on {
