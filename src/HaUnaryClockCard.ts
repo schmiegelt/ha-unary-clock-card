@@ -254,13 +254,17 @@ export class HaUnaryClockCard extends LitElement {
     return css`
       .clock {
         display: grid;
-        background-color: slategray;
+        background: linear-gradient(145deg, #2c3e50, #34495e);
         grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-        width: 100vw;
-        max-width: 100%;
+        gap: 15px;
+        width: 100%;
         box-sizing: border-box;
-        padding: 10px;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 
+          inset 0 2px 4px rgba(255,255,255,0.1),
+          0 4px 8px rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.1);
       }
       .hours,
       .minutes {
@@ -299,6 +303,7 @@ export class HaUnaryClockCard extends LitElement {
       .hour.off,
       .minute.off {
         background-color: gray;
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
       }
     `;
   }
