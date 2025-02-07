@@ -275,19 +275,26 @@ export class HaUnaryClockCard extends LitElement {
         aspect-ratio: 1;
         width: 90%;
         margin: 5px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       }
 
       .hour.hourone.on {
-        background-color: red;
+        background-color: #d35400; //soft red
+        box-shadow: 0 0 15px rgba(46,204,113,0.5);
       }
       .hour.hourtwo.on {
         background-color: blue;
+        box-shadow: 0 0 15px rgba(46,204,113,0.5);
       }
       .minute.minuteone.on {
         background-color: purple;
+        box-shadow: 0 0 15px rgba(46,204,113,0.5);
       }
       .minute.minutetwo.on {
         background-color: green;
+        box-shadow: 0 0 15px rgba(46,204,113,0.5);
       }
       .hour.off,
       .minute.off {
