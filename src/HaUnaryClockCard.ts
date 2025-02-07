@@ -2,6 +2,7 @@ import { html, css, LitElement, CSSResult } from 'lit';
 import { property } from 'lit/decorators.js';
 import { range } from 'lit/directives/range.js';
 import { map } from 'lit/directives/map.js';
+import {choose} from 'lit/directives/choose.js';
 
 console.info(
   `%c  Unary-Clock \n%c  Version 0 `,
@@ -10,12 +11,13 @@ console.info(
 );
 
 export class HaUnaryClockCard extends LitElement {
-  @property({ type: Number }) rectangleSize = 20;
+  @property({ type: Number }) rectangleSize = 10;
 
   @property({ attribute: false }) config: Record<string, unknown> = {};
 
   private timer: number | null = null; // Timer ID for setInterval
-
+  private lastSeenMinute: number | -1 = -1;
+ 
   constructor() {
     super();
     this.timer = null;
@@ -93,14 +95,72 @@ export class HaUnaryClockCard extends LitElement {
     return result;
   }
 
+  private getHourElement(block: string, x: number, y: number, on: boolean): ReturnType<typeof html> {
+    if (on) {
+      return html`
+        <div
+          id="${block}_${x}_${y}"
+          class="hour ${block} on"
+          width="${this.rectangleSize}"
+          height="${this.rectangleSize}"
+        >
+          <!--${x}_${y}-->
+        </div>
+      `;
+    }
+    else {
+      return html`
+        <div
+          id="${block}_${x}_${y}"
+          class="hour ${block} off"
+          width="${this.rectangleSize}"
+          height="${this.rectangleSize}"
+        >
+          <!--${x}_${y}-->
+        </div>
+      `;
+    }
+  }
+  private getMinuteElement(block: string, x: number, y: number, on: boolean): ReturnType<typeof html> {
+    if (on) {
+      return html`
+        <div
+          id="${block}_${x}_${y}"
+          class="minute ${block} on"
+          width="${this.rectangleSize}"
+          height="${this.rectangleSize}"
+        >
+          <!--${x}_${y}-->
+        </div>
+      `;
+    }
+    else {
+      return html`
+        <div
+          id="${block}_${x}_${y}"
+          class="minute ${block} off "
+          width="${this.rectangleSize}"
+          height="${this.rectangleSize}"
+        >
+          <!--${x}_${y}-->
+        </div>
+      `;
+    }
+  }
+
+
+  private onOffHours1: boolean[] | [] = [];
+  private onOffHours2: boolean[] | [] = [];
+
   renderHours(now: Date) {
     const hours = now.getHours();
     const firstDigit = Math.floor(hours / 10);
     const secondDigit = hours % 10;
 
-    const onOffHours1: boolean[] = this.createRandomBooleanArray(9, firstDigit);
-    const onOffHours2: boolean[] = this.createRandomBooleanArray(9, secondDigit);
-    //console.log(onOffHours);
+    if (now.getMinutes() != this.lastSeenMinute) {
+      this.onOffHours1 = this.createRandomBooleanArray(9, firstDigit);
+      this.onOffHours2 = this.createRandomBooleanArray(9, secondDigit);
+    }
 
     return html`
       <div class="hours">
@@ -110,14 +170,20 @@ export class HaUnaryClockCard extends LitElement {
               ${map(
                 range(3),
                 y => html`
-                  <div
-                    id="${x}_${y}"
-                    class="hour"
-                    width="${this.rectangleSize}"
-                    height="${this.rectangleSize}"
-                  >
-                    ${x}_${y}
-                  </div>
+                ${ this.getHourElement("hourone", x, y, this.onOffHours1[x * 3 + y]) }
+                `,
+              )}
+            `,
+          )}
+        </div>
+        <div class="hours">
+          ${map(
+            range(3),
+            x => html`
+              ${map(
+                range(3),
+                y => html`
+                  ${ this.getHourElement("hourtwo", x, y, this.onOffHours2[x * 3 + y]) }
                 `,
               )}
             `,
@@ -126,7 +192,22 @@ export class HaUnaryClockCard extends LitElement {
     `;
   }
 
+
+  private onOffMinutes1: boolean[] | [] = [];
+  private onOffMinutes2: boolean[] | [] = [];
+
   renderMinutes(now: Date) {
+    const minutes = now.getMinutes();
+    const firstDigit = Math.floor(minutes / 10);
+    const secondDigit = minutes % 10;
+
+    if (now.getMinutes() != this.lastSeenMinute) {
+      this.lastSeenMinute = now.getMinutes();
+      console.log('New minute');
+      this.onOffMinutes1 = this.createRandomBooleanArray(9, firstDigit);
+      this.onOffMinutes2 = this.createRandomBooleanArray(9, secondDigit);
+    }
+
     return html`
       <div class="minutes">
             ${map(
@@ -135,14 +216,20 @@ export class HaUnaryClockCard extends LitElement {
                 ${map(
                   range(3),
                   y => html`
-                    <div
-                      id="${x}_${y}"
-                      class="minute"
-                      width="${this.rectangleSize}"
-                      height="${this.rectangleSize}"
-                    >
-                      ${x}_${y}
-                    </div>
+                     ${ this.getMinuteElement("minuteone", x, y, this.onOffMinutes1[x * 3 + y]) }
+                  `,
+                )}
+              `,
+            )}
+          </div>
+          <div class="minutes">
+            ${map(
+              range(3),
+              x => html`
+                ${map(
+                  range(3),
+                  y => html`
+                     ${ this.getMinuteElement("minutetwo", x, y, this.onOffMinutes2[x * 3 + y]) }
                   `,
                 )}
               `,
@@ -159,7 +246,7 @@ export class HaUnaryClockCard extends LitElement {
       <h2>Unary Clock</h2>
       <div class="clock">
         ${this.renderHours(now)}
-        ${this.renderMinutes(now)}       
+        ${this.renderMinutes(now)} 
       </div>
     `;
   }
@@ -168,7 +255,7 @@ export class HaUnaryClockCard extends LitElement {
     return css`
       .clock {
         display: grid;
-        background-color: green;
+        background-color: slategray;
         grid-template-columns: auto auto;
       }
       .hours,
@@ -178,10 +265,26 @@ export class HaUnaryClockCard extends LitElement {
       }
       .hour,
       .minute {
-        background-color: red;
         margin: 5px;
         height: 10vw;
         width: 10vw;
+      }
+
+      .hour.hourone.on {
+        background-color: red;
+      }
+      .hour.hourtwo.on {
+        background-color: blue;
+      }
+      .minute.minuteone.on {
+        background-color: purple;
+      }
+      .minute.minutetwo.on {
+        background-color: green;
+      }
+      .hour.off,
+      .minute.off {
+        background-color: gray;
       }
     `;
   }
