@@ -38,7 +38,7 @@ export class HaUnaryClockCard extends LitElement {
   }
 
   //Currently no config necessary, so do nothing
-  public setConfig(config: Record<string, unknown>): void {
+  public setConfig(config: any): void {
     this.config = config;
   }
 
@@ -101,8 +101,6 @@ export class HaUnaryClockCard extends LitElement {
         <div
           id="${block}_${x}_${y}"
           class="hour ${block} on"
-          width="${this.rectangleSize}"
-          height="${this.rectangleSize}"
         >
           <!--${x}_${y}-->
         </div>
@@ -113,8 +111,6 @@ export class HaUnaryClockCard extends LitElement {
         <div
           id="${block}_${x}_${y}"
           class="hour ${block} off"
-          width="${this.rectangleSize}"
-          height="${this.rectangleSize}"
         >
           <!--${x}_${y}-->
         </div>
@@ -127,8 +123,6 @@ export class HaUnaryClockCard extends LitElement {
         <div
           id="${block}_${x}_${y}"
           class="minute ${block} on"
-          width="${this.rectangleSize}"
-          height="${this.rectangleSize}"
         >
           <!--${x}_${y}-->
         </div>
@@ -139,8 +133,6 @@ export class HaUnaryClockCard extends LitElement {
         <div
           id="${block}_${x}_${y}"
           class="minute ${block} off "
-          width="${this.rectangleSize}"
-          height="${this.rectangleSize}"
         >
           <!--${x}_${y}-->
         </div>
@@ -256,7 +248,7 @@ export class HaUnaryClockCard extends LitElement {
         display: grid;
         background: linear-gradient(145deg, #2c3e50, #34495e);
         grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
+        gap: 5%;
         width: 100%;
         box-sizing: border-box;
         padding: 20px;
@@ -268,17 +260,19 @@ export class HaUnaryClockCard extends LitElement {
       }
       .hours,
       .minutes {
+        aspect-ratio: 1;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        width: 90%;
-        
-        gap: 5px;
+        width: 100%;
+        height: 100%;
+        gap: 2%;
       }
       .hour,
       .minute {
         aspect-ratio: 1;
-        width: 90%;
-        margin: 5px;
+        width: 100%;
+        height: 100%;
+        
         border-radius: 8px;
         transition: all 0.3s ease;
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
