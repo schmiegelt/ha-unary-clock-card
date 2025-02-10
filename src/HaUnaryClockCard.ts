@@ -250,7 +250,7 @@ export class HaUnaryClockCard extends LitElement {
     return css`
       .clock {
         display: grid;
-        background: linear-gradient(145deg, #2c3e50, #34495e);
+        background: var(--primary-background-color, #2c3e50);
         grid-template-columns: repeat(4, 1fr);
         gap: 5%;
         width: 100%;
@@ -300,7 +300,7 @@ export class HaUnaryClockCard extends LitElement {
       }
       .hour.off,
       .minute.off {
-        background-color: gray;
+        background-color: var(--secondary-background-color, #34495e);
         box-shadow: 0 0 5px rgba(0,0,0,0.5);
       }
     `;
