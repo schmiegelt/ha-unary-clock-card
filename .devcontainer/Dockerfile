@@ -1,16 +1,13 @@
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node
+FROM node:slim
 
-# Install additional tools
+# Install minimal required tools and clean up in same layer
 RUN apt-get update && \
-    apt-get install -y git curl && \
+    apt-get install -y --no-install-recommends git curl && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN  mkdir -p /workspaces/ha-unary-clock-card/node_modules/ && \
-     chown -R node:node /workspaces/ha-unary-clock-card/node_modules/
-
-# Install global pnpm
-RUN npm install -g pnpm
+    rm -rf /var/lib/apt/lists/* && \
+    mkdir -p /workspaces/ha-unary-clock-card/node_modules/ && \
+    chown -R node:node /workspaces/ha-unary-clock-card/node_modules/ && \
+    npm install -g pnpm
 
 # Set the working directory
 WORKDIR /workspace
