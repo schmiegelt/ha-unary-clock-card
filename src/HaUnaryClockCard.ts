@@ -43,13 +43,11 @@ export class HaUnaryClockCard extends LitElement {
   }
 
   private updateTimer(): void {
-    console.log('Timer update');
     // Add actual time update logic here
     this.requestUpdate();
   }
 
   private startTimer(): void {
-    console.log('Timer started');
     if (!this.timer) {
       this.timer = window.setInterval(() => {
         this.updateTimer();
@@ -195,7 +193,6 @@ export class HaUnaryClockCard extends LitElement {
 
     if (now.getMinutes() != this.lastSeenMinute) {
       this.lastSeenMinute = now.getMinutes();
-      console.log('New minute');
       this.onOffMinutes1 = this.createRandomBooleanArray(9, firstDigit);
       this.onOffMinutes2 = this.createRandomBooleanArray(9, secondDigit);
     }
