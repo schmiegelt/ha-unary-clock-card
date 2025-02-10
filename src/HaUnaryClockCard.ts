@@ -44,7 +44,14 @@ export class HaUnaryClockCard extends LitElement {
 
   private updateTimer(): void {
     // Add actual time update logic here
-    this.requestUpdate();
+    const now: Date = new Date();
+    if (now.getMinutes() != this.lastSeenMinute) {
+      this.lastSeenMinute = now.getMinutes();
+      this.requestUpdate();
+    }
+    else {
+      //do nothing
+    }
   }
 
   private startTimer(): void {
@@ -147,11 +154,10 @@ export class HaUnaryClockCard extends LitElement {
     const firstDigit = Math.floor(hours / 10);
     const secondDigit = hours % 10;
 
-    if (now.getMinutes() != this.lastSeenMinute) {
-      this.onOffHours1 = this.createRandomBooleanArray(9, firstDigit);
-      this.onOffHours2 = this.createRandomBooleanArray(9, secondDigit);
-    }
-
+    
+    this.onOffHours1 = this.createRandomBooleanArray(9, firstDigit);
+    this.onOffHours2 = this.createRandomBooleanArray(9, secondDigit);
+    
     return html`
       <div class="hours">
           ${map(
@@ -191,11 +197,11 @@ export class HaUnaryClockCard extends LitElement {
     const firstDigit = Math.floor(minutes / 10);
     const secondDigit = minutes % 10;
 
-    if (now.getMinutes() != this.lastSeenMinute) {
-      this.lastSeenMinute = now.getMinutes();
-      this.onOffMinutes1 = this.createRandomBooleanArray(9, firstDigit);
-      this.onOffMinutes2 = this.createRandomBooleanArray(9, secondDigit);
-    }
+    
+      
+    this.onOffMinutes1 = this.createRandomBooleanArray(9, firstDigit);
+    this.onOffMinutes2 = this.createRandomBooleanArray(9, secondDigit);
+    
 
     return html`
       <div class="minutes">
@@ -228,8 +234,9 @@ export class HaUnaryClockCard extends LitElement {
   }
 
   render() {
-    const now: Date = new Date();
+    
     //this.renderHours(now);
+    const now: Date = new Date();
 
     return html`
       <div class="clock">
