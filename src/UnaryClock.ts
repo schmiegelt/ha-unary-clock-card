@@ -10,7 +10,7 @@ console.info(
   'color: white; font-weight: bold; background: dimgray',
 );
 
-export class HaUnaryClockCard extends LitElement {
+export class UnaryClock extends LitElement {
   @property({ type: Number }) rectangleSize = 5;
 
   @property({ attribute: false }) config: Record<string, unknown> = {};
@@ -307,4 +307,4 @@ export class HaUnaryClockCard extends LitElement {
   }
 }
 
-customElements.define('lovelace-unary-clock', HaUnaryClockCard);
+customElements.define('lovelace-unary-clock', UnaryClock);
