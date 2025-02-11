@@ -26,7 +26,7 @@ const plugins = [
 
 export default [
   {
-    input: 'src/HaUnaryClockCard.ts',
+    input: 'src/UnaryClock.ts',
     output: {
       dir: 'dist',
       format: 'es',
