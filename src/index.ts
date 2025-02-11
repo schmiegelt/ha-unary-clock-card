@@ -1,1 +1,1 @@
-export { HaUnaryClockCard } from './HaUnaryClockCard.js';
+export { UnaryClock as UnaryClock } from './UnaryClock.js';
