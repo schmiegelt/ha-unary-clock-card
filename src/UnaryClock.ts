@@ -307,4 +307,4 @@ export class HaUnaryClockCard extends LitElement {
   }
 }
 
-customElements.define('ha-unary-clock-card', HaUnaryClockCard);
+customElements.define('lovelace-unary-clock', HaUnaryClockCard);
