@@ -11,9 +11,9 @@ console.info(
 );
 
 export class UnaryClock extends LitElement {
-  @property({ type: Number }) rectangleSize = 5;
+  
 
-  @property({ attribute: false }) config: Record<string, unknown> = {};
+  @property({ type: Object }) public config: Record<string, unknown> = {};
 
   private timer: number | null = null; // Timer ID for setInterval
   private lastSeenMinute: number | -1 = -1;

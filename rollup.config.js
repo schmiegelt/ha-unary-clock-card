@@ -3,6 +3,7 @@ import  nodeResolve  from '@rollup/plugin-node-resolve';
 import  commonjs  from '@rollup/plugin-commonjs';
 import  terser from '@rollup/plugin-terser';
 import  serve from 'rollup-plugin-serve';
+import copy from 'rollup-plugin-copy';
 
 const dev = process.env.ROLLUP_WATCH;
 
@@ -20,6 +21,11 @@ const plugins = [
   typescript(),
   commonjs(),
   nodeResolve(),
+  copy({
+    targets: [
+      { src: 'src/index.html', dest: 'dist' },
+    ]
+  }),
   dev && serve(serveopts),
   !dev && terser(),
 ];
